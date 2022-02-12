@@ -1,5 +1,8 @@
 {% extends 'base.html' %}
 
+{% block navbar %}
+    {% include 'navbar.html' %}
+{% endblock %}
 <h3>{{title}}</h3>
 <ul>
    {% for featured_quotes in feature %}

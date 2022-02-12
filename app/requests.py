@@ -1,8 +1,9 @@
+from email.quoprimime import quote
 from app import app
 import urllib.request,json
 from .models import Quotes
 
-Quotes = quotes.quotes
+Quotes = quote.quote
 
 # Getting api url
 api_url = app.config['QUOTES_API_URL']

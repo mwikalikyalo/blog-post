@@ -1,7 +1,9 @@
+from email.quoprimime import quote
 import unittest
 from models import Quotes
 
 Quotes = quote.quote
+
 class QuoteTest(unittest.TestCase):
     '''
     Test Class to test the behaviour of the Movie class
