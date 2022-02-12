@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+<h3>{{title}}</h3>
+<ul>
+   {% for featured_quotes in feature %}
+       <li>{{ featured_quotes.author}}</li>
+       <li>{{ featured_quotes.quote}}</li>
+   {% endfor %}
+</ul>
