@@ -1,4 +1,6 @@
-{% block content%}
+{% extends 'base.html' %}
+
+{% block content %}
   <div class="container">
       <div class="col-md-8 mt-3">
           {{ wtf.quick_form(comment_form) }}
