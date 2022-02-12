@@ -1,0 +1,3 @@
+Hello {{user.username}}
+Welcome to Let's Blog!
+We have seen that you have signed up for our application and we want to welcome you to the family. Please write your pitches inorder to receive feedback from our amazing community.
