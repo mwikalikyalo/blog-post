@@ -5,14 +5,17 @@ from .models import Quotes
 
 Quotes = quote.quote
 
+# Getting the movie base url
+base_url = None
+
 # Getting api url
-api_url = app.config['QUOTES_API_URL']
+base_url = app.config['QUOTES_BASE_URL']
 
 def get_quotes(id):
     '''
     Function that gets the json response to our url request
     '''
-    get_quotes_url = api_url.format(id)
+    get_quotes_url = base_url.format(id)
 
     with urllib.request.urlopen(get_quotes_url) as url:
         get_quotes_data = url.read()
@@ -40,3 +43,7 @@ def process_results(quotes_list):
             quotes_results.append(quote_object)
 
     return quotes_results
+
+def configure_request(app):
+    global base_url
+    base_url = app.config['MOVIE_API_BASE_URL']
