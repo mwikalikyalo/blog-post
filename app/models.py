@@ -1,9 +1,12 @@
-class Quotes:
+from . import db
 
-  def __init__(self,author, id, quote):
-    self.author = author
-    self.id = id
-    self.quote = quote
+class User(db.Model):
+    __tablename__ = 'users'
+    id = db.Column(db.Integer,primary_key = True)
+    username = db.Column(db.String(255))
+
+    def __repr__(self):
+        return f'User {self.username}'
 
 class Comments(db.Model):
     __tablename__ = 'comments'
@@ -41,3 +44,10 @@ class Blog(db.Model):
     def get_blog (cls, id):
         blog = Blog.query.filter_by(user_id = id).all()
         return blog
+
+class Quotes:
+
+  def __init__(self,author, id, quote):
+    self.author = author
+    self.id = id
+    self.quote = quote

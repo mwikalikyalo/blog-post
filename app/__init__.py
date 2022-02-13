@@ -1,6 +1,9 @@
 from flask import Flask
 from config import DevConfig, config_options
 from .main import main as main_blueprint
+from flask_sqlalchemy import SQLAlchemy
+
+db = SQLAlchemy()
 
 def create_app(config_name):
     """
@@ -8,6 +11,9 @@ def create_app(config_name):
     """
     # Initializing application
     app= Flask(__name__)
+
+    # Initializing flask extensions
+    db.init_app(app)
 
     # Creating the app configurations
     app.config.from_object(config_options[config_name])
