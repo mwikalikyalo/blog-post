@@ -12,3 +12,4 @@ def index():
     print(featured_quotes)
     title = 'Quote of the hour.'
     return render_template('index.html', title = title, feature= featured_quotes)
+

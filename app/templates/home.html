@@ -3,10 +3,13 @@
 {% block navbar %}
     {% include 'navbar.html' %}
 {% endblock %}
-<h3>{{title}}</h3>
-<ul>
-   {% for featured_quotes in feature %}
-       <li>{{ featured_quotes.author}}</li>
-       <li>{{ featured_quotes.quote}}</li>
-   {% endfor %}
-</ul>
+
+<div class="col-xs-12 col-sm-4 col-md-2 col-lg-2 quote-card">
+    <h3>{{title}}</h3>
+    <ul>
+    {% for featured_quotes in feature %}
+        <li>{{ featured_quotes.author}}</li>
+        <li>{{ featured_quotes.quote}}</li>
+    {% endfor %}
+    </ul>
+</div>
