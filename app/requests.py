@@ -1,29 +1,29 @@
 from email.quoprimime import quote
-from .. import app
 import urllib.request,json
 from .models import Quotes
 
-Quotes = quote.quote
+Quotes = quote
 
 # Getting the movie base url
-api_key = None
+base_url = None
 
-# Getting api url
-api_key = app.config['QUOTES_API_KEY']
+def configure_request(app):
+    global base_url
+    base_url = app.config['QUOTE_BASE_URL']
 
 def get_quotes(id):
     '''
     Function that gets the json response to our url request
     '''
-    get_quotes_url = api_key.format(id)
+    get_quotes_url = base_url.format(id)
 
     with urllib.request.urlopen(get_quotes_url) as url:
         get_quotes_data = url.read()
         get_quotes_response = json.loads(get_quotes_data)
 
         quotes_results = None
-        if get_quotes_response['results']:
-            quotes_results_list = get_quotes_response['results']
+        if get_quotes_response['quote']:
+            quotes_results_list = get_quotes_response['quote']
             quotes_results = process_results(quotes_results_list)
 
     return quotes_results
@@ -44,6 +44,3 @@ def process_results(quotes_list):
 
     return quotes_results
 
-def configure_request(app):
-    global base_url
-    base_url = app.config['MOVIE_API_BASE_URL']

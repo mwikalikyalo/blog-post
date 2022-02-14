@@ -1,4 +1,4 @@
-import flask_simplemde
+# import flask_simplemde
 from flask_wtf import FlaskForm
 from wtforms import TextAreaField, SubmitField, StringField , SelectField
 from wtforms.validators import DataRequired
