@@ -1,3 +1,4 @@
+from crypt import methods
 from email.quoprimime import quote
 from flask import render_template,request,redirect,url_for
 from . import main
@@ -30,3 +31,5 @@ def comment(id):
         new_comment.save_comment()
 
     return render_template('comments.html', comment_form = form, comments = comments, blog = blog)  
+
+@main.route('/user/blog/new/<int:id>' , methods=["GET","POST"])
