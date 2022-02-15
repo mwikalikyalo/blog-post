@@ -11,7 +11,7 @@ class User(db.Model):
     bio = db.Column(db.String(255))
     profile_pic_path = db.Column(db.String(255))
     pass_secure = db.Column(db.String(255))
-    pitches = db.relationship('Pitches',backref = 'pitcher',lazy = "dynamic")
+    blog = db.relationship('Blog',backref = 'blogger',lazy = "dynamic")
     comments_id = db.relationship('Comments', backref = 'commenter', lazy ='dynamic')
 
     @property
@@ -28,12 +28,22 @@ class User(db.Model):
     def __repr__(self):
         return f'User{self.username}'
 
+class Role(db.Model):
+    __tablename__ = 'role'  
+
+    id = db.Column(db.Integer, primary_key = True)
+    name = db.Column(db.String(255))
+    users = db.relationship('User', backref ='role', lazy = 'dynamic')
+
+    def __repr__(self):
+        return f'User {self.name}'
+
 class Comments(db.Model):
     __tablename__ = 'comments'
 
     id = db.Column(db.Integer, primary_key = True)
     comment = db.Column(db.String(255))
-    blog_id = db.Column(db.Integer, db.ForeignKey('pitches.id'))
+    blog_id = db.Column(db.Integer, db.ForeignKey('blog.id'))
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 
     def save_comment(self):
@@ -42,7 +52,7 @@ class Comments(db.Model):
 
     @classmethod
     def get_comment(cls, id) :
-        comments = Comments.query.filter_by(pitch_id = id).all()
+        comments = Comments.query.filter_by(blog_id = id).all()
         return comments 
 
 class Blog(db.Model):
@@ -54,7 +64,6 @@ class Blog(db.Model):
     date_posted = db.Column(db.DateTime,default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     comments_id = db.relationship('Comments', backref = 'comments', lazy ='dynamic')
-    category_id = db.Column(db.Integer, db.ForeignKey('category.id'))
 
     def save_blog(self):
         db.session.add(self)
@@ -66,7 +75,6 @@ class Blog(db.Model):
         return blog
 
 class Quotes:
-
   def __init__(self,author, id, quote):
     self.author = author
     self.id = id

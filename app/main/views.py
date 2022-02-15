@@ -1,11 +1,10 @@
 from crypt import methods
-from email.quoprimime import quote
-from flask import render_template,request,redirect,url_for
+from flask import render_template,request,redirect,url_for,flash
 from . import main
 from ..requests import get_quotes
-from .forms import CommentsForm
+from .forms import BlogForm, CommentsForm
 from ..models import Comments, Blog, User
-from flask_login import login_required
+from flask_login import current_user, login_required
 
 @main.route('/')
 def index():
@@ -18,8 +17,8 @@ def index():
     title = 'Quote of the hour.'
     return render_template('index.html', title = title, feature= featured_quotes)
 
+
 @main.route('/user/comment/new/<int:id>', methods =["GET", "POST"])
-@login_required
 def comment(id):
     form = CommentsForm()
     comments = Comments.query.filter_by(blog_id = id).all()
@@ -30,6 +29,17 @@ def comment(id):
         new_comment = Comments(comment= comment_submitted, commenter = current_user, comments = blog )
         new_comment.save_comment()
 
-    return render_template('comments.html', comment_form = form, comments = comments, blog = blog)  
+    return render_template('comments.html', comment_form = form, comments = comments, blog = blog)
+      
 
 @main.route('/user/blog/new/<int:id>' , methods=["GET","POST"])
+@login_required
+def blog(id):
+    form = BlogForm()
+    blog = Blog.query.filter_by(id=id).first()
+
+    if form.validate_on_submit():
+        blog=Blog(title = form.title.data, content = form.content.data, blogger= current_user )      
+        flash("Your blog has been published", "Success")
+        return redirect(url_for('home'))
+    return render_template("blog.html", title="New blog", blog=blog)
