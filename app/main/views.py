@@ -5,7 +5,7 @@ from ..requests import get_quotes
 from .forms import BlogForm, CommentsForm,UpdateProfile
 from ..models import Comments, Blog, User
 from flask_login import current_user, login_required
-from .. import db
+from .. import db,photos
 
 @main.route('/')
 def index():
@@ -45,6 +45,7 @@ def blog(id):
         return redirect(url_for('home'))
     return render_template("blog.html", title="New blog", blog=blog)
 
+
 @main.route('/user/<full_name>')
 def profile(full_name):
     user = User.query.filter_by(full_name = full_name).first()
@@ -53,6 +54,7 @@ def profile(full_name):
         abort(404)
 
     return render_template("profile/profile.html", user = user)
+
 
 @main.route('/user/<full_name>/update',methods = ['GET','POST'])
 @login_required
@@ -72,3 +74,15 @@ def update_profile(full_name):
         return redirect(url_for('.profile',full_name=user.full_name))
 
     return render_template('profile/update.html',form =form)
+
+
+@main.route('/user/<full_name>/update/pic',methods= ['POST'])
+@login_required
+def update_pic(full_name):
+    user = User.query.filter_by(full_name = full_name).first()
+    if 'photo' in request.files:
+        filename = photos.save(request.files['photo'])
+        path = f'photos/{filename}'
+        user.profile_pic_path = path
+        db.session.commit()
+    return redirect(url_for('main.profile',full_name=full_name))
