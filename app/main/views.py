@@ -1,5 +1,5 @@
 from crypt import methods
-from flask import render_template,request,redirect,url_for,flash
+from flask import render_template,request,redirect,url_for,flash,abort
 from . import main
 from ..requests import get_quotes
 from .forms import BlogForm, CommentsForm
@@ -43,3 +43,12 @@ def blog(id):
         flash("Your blog has been published", "Success")
         return redirect(url_for('home'))
     return render_template("blog.html", title="New blog", blog=blog)
+
+@main.route('/user/<full_name>')
+def profile(full_name):
+    user = User.query.filter_by(full_name = full_name).first()
+
+    if user is None:
+        abort(404)
+
+    return render_template("profile/profile.html", user = user)
