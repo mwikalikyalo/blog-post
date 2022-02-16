@@ -2,28 +2,32 @@
 
 {% block content %}
 <div class="container">
-<div class="row">
-<!-- displaying  name-->
-  <div class="col-md-4">
-    <h3> {{user.full_name| capitalize}} </h3>
+  <div class="row">
+  <!-- displaying  name-->
 
-    <!--Displaying user bio-->
-    {% if user.bio %}
-      <p> {{user.bio}}</p>
-    {%else%}
-      <p> {{user.full_name| capitalize}} has no bio </p>
+    <div class="col-md-4">
+      <h3> {{user.full_name| capitalize}} </h3>
+
+      <!--Displaying user bio-->
+      {% if user.bio %}
+        <p> {{user.bio}}</p>
+      {%else%}
+        <p> {{user.full_name| capitalize}} has no bio </p>
+      {% endif %}
+    </div>
+
+    <!--Display profile photo-->
+    <div class="col-md-4">
+
+      {% if user.profile_pic_path %}
+      <img src="{{url_for('static',filename=user.profile_pic_path)}}" alt="" class="img-thumbnail">
+      {%else%}
+      <p>No profile picture</p>
+      {% endif %}
+    </div>
+    {% if user == current_user %}
+    <a href="{{url_for('main.update_profile',full_name=user.full_name)}}">Edit profile</a>
     {% endif %}
   </div>
-
-  <!--Display profile photo-->
-  <div class="col-md-4">
-
-    {% if user.profile_pic_path %}
-    <img src="{{url_for('static',filename=user.profile_pic_path)}}" alt="" class="img-thumbnail">
-    {%else%}
-    <p>No profile picture</p>
-    {% endif %}
-  </div>
-</div>
 </div>
 {% endblock %}

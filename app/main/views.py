@@ -2,9 +2,10 @@ from crypt import methods
 from flask import render_template,request,redirect,url_for,flash,abort
 from . import main
 from ..requests import get_quotes
-from .forms import BlogForm, CommentsForm
+from .forms import BlogForm, CommentsForm,UpdateProfile
 from ..models import Comments, Blog, User
 from flask_login import current_user, login_required
+from .. import db
 
 @main.route('/')
 def index():
@@ -52,3 +53,22 @@ def profile(full_name):
         abort(404)
 
     return render_template("profile/profile.html", user = user)
+
+@main.route('/user/<full_name>/update',methods = ['GET','POST'])
+@login_required
+def update_profile(full_name):
+    user = User.query.filter_by(full_name = full_name).first()
+    if user is None:
+        abort(404)
+
+    form = UpdateProfile()
+
+    if form.validate_on_submit():
+        user.bio = form.bio.data
+
+        db.session.add(user)
+        db.session.commit()
+
+        return redirect(url_for('.profile',full_name=user.full_name))
+
+    return render_template('profile/update.html',form =form)

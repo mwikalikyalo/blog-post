@@ -12,3 +12,7 @@ class BlogForm(FlaskForm):
     category = SelectField("Category", topics =[(1,'Technology'),(2,'Fitness'),(3,'Day in the life')],validators=[DataRequired()])
     content = TextAreaField('Write your blog', validators=[DataRequired()])
     submit = SubmitField('Submit') 
+
+class UpdateProfile(FlaskForm):
+    bio = TextAreaField('Tell us about you.',validators = [DataRequired()])
+    submit = SubmitField('Submit')
