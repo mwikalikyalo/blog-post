@@ -5,6 +5,7 @@ from ..models import User
 from .forms import SigninForm, LoginForm
 from .. import db
 from flask_login import login_user,logout_user,login_required
+from ..email import mail_message
 
 # ....
 @auth.route('/signin',methods = ["GET","POST"])
@@ -14,6 +15,8 @@ def signin():
         user = User(email = form.email.data, full_name = form.full_name.data,password = form.password.data)
         db.session.add(user)
         db.session.commit()
+        mail_message("Welcome to Bloggin","email/welcome_user",user.email,user=user)
+
         return redirect(url_for('auth.signin'))
         title = "New Account"
     return render_template('auth/signin.html',signin_form = form)
