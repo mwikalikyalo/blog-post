@@ -14,10 +14,10 @@ def signin():
         user = User(email = form.email.data, full_name = form.full_name.data,password = form.password.data)
         db.session.add(user)
         db.session.commit()
-        return redirect(url_for('auth.login'))
+        return redirect(url_for('auth.signin'))
         title = "New Account"
     return render_template('auth/signin.html',signin_form = form)
-    
+
 
 @auth.route('/login',methods=['GET','POST'])
 def login():
