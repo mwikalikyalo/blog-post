@@ -14,7 +14,7 @@ class User(UserMixin,db.Model):
 # class User(db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key = True)
-    username = db.Column(db.String(255),index = True)
+    fullname = db.Column(db.String(255),index = True)
     email = db.Column(db.String(255), unique = True, index = True)
     role_id = db.Column(db.Integer, db.ForeignKey('role.id'))
     bio = db.Column(db.String(255))
@@ -35,7 +35,7 @@ class User(UserMixin,db.Model):
         return check_password_hash(self.pass_secure, password)     
 
     def __repr__(self):
-        return f'User{self.username}'
+        return f'User{self.fullname}'
 
 class Role(db.Model):
     __tablename__ = 'role'  
@@ -88,3 +88,13 @@ class Quotes:
     self.author = author
     self.id = id
     self.quote = quote
+
+class Subscription(db.Model):
+    __tablename__ = 'subcription'
+
+    id = db.Column(db.Integer, primary_key = True)
+    email = db.Column(db.String(255), unique = True)
+
+    def save_email(self):
+        db.session.add(self)
+        db.session.commit() 

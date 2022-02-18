@@ -1,7 +1,8 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="card">
+<div class="container-fluid">
+  <div class="card">
     <div class="card-header">
       <h4>{{title}}</h4>
     </div>
@@ -11,5 +12,29 @@
         <footer class="blockquote-footer">{{feature.author}}</footer>
       </blockquote>
     </div>
+  </div>
+
+  <div class="container-fluid">
+      <h1 class="text-center" style="color: #9d0208;">Welcome to Bloggin!</h1>
+      <div class="row">
+          <div class="col-md-7">
+              <h3 class="all" style="color: #023047;">All blogs</h3>
+            {% if blogs %}
+            {% for blog in blogs |reverse %}
+            <div class="card mt-1" style="width: 100%;">
+                <div class="card-body" style="background-color: #94d2bd;">
+                    <h6 class="mb-3">{{blog.blogger.username}}</h6>
+                  <h5 class="card-title">{{blog.title}}</h5>
+                  <p class="card-text">{{blog.content | safe | truncate(50)}}</p>
+                  <p><em>{{blog.date_posted.strftime('%Y-%m-%d')}}</em></p>
+                  <a class="btn btn-outline-secondary" href="{{url_for('.single_blog', id = blog.id)}}">View blog</a>
+                </div>
+            </div> 
+            {% endfor %}
+            {% endif %}
+          </div>
+      </div>
+  </div>
 </div>
+   
 {% endblock %}

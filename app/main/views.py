@@ -3,9 +3,10 @@ from flask import render_template,request,redirect,url_for,flash,abort
 from . import main
 from ..requests import get_quotes
 from .forms import BlogForm, CommentsForm,UpdateProfile
-from ..models import Comments, Blog, User
+from ..models import Comments, Blog, User, Subscription
 from flask_login import current_user, login_required
 from .. import db,photos
+from ..email import mail_message
 
 @main.route('/')
 def home():
@@ -18,8 +19,8 @@ def home():
     title = 'Quote of the hour.'
     return render_template('home.html', title = title, feature= featured_quotes)
 
-
-@main.route('/user/comment/new/<int:id>', methods =["GET", "POST"])
+#comment 
+@main.route('/user/comment/new/<int:id>', methods=["GET", "POST"])
 def comment(id):
     form = CommentsForm()
     comments = Comments.query.filter_by(blog_id = id).all()
@@ -31,35 +32,56 @@ def comment(id):
         new_comment.save_comment()
 
     return render_template('comments.html', comment_form = form, comments = comments, blog = blog)
-      
 
-@main.route('/user/blog/new/<int:id>' , methods=["GET","POST"])
+@main.route('/delete/comment/<int:id>')
+def delete_comment(id):
+    comment_to_delete = Comments.query.filter_by(id = id).first()
+
+    db.session.delete(comment_to_delete)
+    db.session.commit()
+    return redirect(url_for('blog.html', id = comment_to_delete.blog_id ))
+
+#new blog post 
+@main.route('/user/blog/new', methods =['GET', 'POST'])
 @login_required
-def blog(id):
+def new_blog():
     form = BlogForm()
-    blog = Blog.query.filter_by(id=id).first()
+    subscribers = Subscription.query.all()
 
     if form.validate_on_submit():
-        blog=Blog(title = form.title.data, content = form.content.data, blogger= current_user )      
-        flash("Your blog has been published", "Success")
-        return redirect(url_for('home'))
-    return render_template("blog.html", title="New blog", blog=blog)
+        title = form.title.data
+        content = form.content.data
+        new_pitch = Blog(title = title, content = content, blogger = current_user)
+        new_pitch.save_blog()
+        for subscriber in subscribers:
+            mail_message("New post alert", 'email/welcome_user', subscriber.email, user = current_user.username)
+        return redirect(url_for('main.profile', fullname = current_user.fullname ))
+
+    return render_template('blog.html', blog_form = form)
+
+@main.route('/delete/blog/<int:id>')
+def delete_blog(id):
+    blog_to_delete = Blog.query.filter_by(id = id).first()
+    
+    db.session.delete(blog_to_delete)
+    db.session.commit()
+    return redirect(url_for('main.profile', fullname = current_user.fullname, user = current_user ))   
 
 
-@main.route('/user/<full_name>')
-def profile(full_name):
-    user = User.query.filter_by(full_name = full_name).first()
-
+#profile
+@main.route('/user/<fullname>')
+def profile(fullname):
+    user = User.query.filter_by(fullname = fullname).first()
+    blogs = Blog.get_blog(user.id)
     if user is None:
         abort(404)
 
-    return render_template("profile/profile.html", user = user)
+    return render_template("profile/profile.html", user = user, blogs = blogs)
 
-
-@main.route('/user/<full_name>/update',methods = ['GET','POST'])
+@main.route('/user/<fullname>/update',methods = ['GET','POST'])
 @login_required
-def update_profile(full_name):
-    user = User.query.filter_by(full_name = full_name).first()
+def update_profile(fullname):
+    user = User.query.filter_by(fullname = fullname).first()
     if user is None:
         abort(404)
 
@@ -71,18 +93,16 @@ def update_profile(full_name):
         db.session.add(user)
         db.session.commit()
 
-        return redirect(url_for('main.profile',full_name=user.full_name))
-
+        return redirect(url_for('main.profile',fullname = user.fullname))
     return render_template('profile/update.html',form =form)
 
-
-@main.route('/user/<full_name>/update/pic',methods= ['POST'])
+@main.route('/user/<fullname>/update/pic',methods= ['POST'])
 @login_required
-def update_pic(full_name):
-    user = User.query.filter_by(full_name = full_name).first()
+def update_pic(fullname):
+    user = User.query.filter_by(fullname = fullname).first()
     if 'photo' in request.files:
-        filename = photos.save(request.files['photo'])
+        filename = photos.save(request.files['photos'])
         path = f'photos/{filename}'
         user.profile_pic_path = path
         db.session.commit()
-    return redirect(url_for('main.profile',full_name=full_name))
+    return redirect(url_for('main.profile',fullname=fullname))
