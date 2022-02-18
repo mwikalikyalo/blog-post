@@ -7,9 +7,11 @@ class Config:
     QUOTE_BASE_URL ='http://quotes.stormconsultancy.co.uk/random.json'
     SECRET_KEY= os.environ.get('SECRET_KEY') or 'Quota'
     SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://moringa:0000@localhost/blog_post'
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
     UPLOADED_PHOTOS_DEST ='app/static/photos'
     SIMPLEMDE_JS_IIFE = True
     SIMPLEMDE_USE_CDN = True
+
 
     #email configurations
     MAIL_SERVER = 'smtp.googlemail.com'
@@ -23,7 +25,8 @@ class TestConfig(Config):
     SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://moringa:0000@localhost/comments_test'
 
 class ProdConfig(Config):
-    pass
+    SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://moringa:0000@localhost/blog_post'
+    
 
 class DevConfig(Config):
     SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://moringa:0000@localhost/blog_post'

@@ -8,7 +8,7 @@ from wtforms import StringField,PasswordField,BooleanField,SubmitField
 class RegistrationForm(FlaskForm):
     email = StringField('Your Email Address', validators=[DataRequired()])
     full_name = StringField('Enter your full name', validators=[DataRequired()])
-    password = PasswordField('Password', validators=[DataRequired(), EqualTo('password_confirm', message='Passwords must match')])
+    password = PasswordField('Password', validators=[DataRequired()])
     remember = BooleanField('remember me')
     submit = SubmitField('Submit')
 
