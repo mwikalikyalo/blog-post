@@ -9,7 +9,6 @@ class CommentsForm(FlaskForm):
 
 class BlogForm(FlaskForm):
     title = StringField('Pitch title', validators=[DataRequired()])
-    category = SelectField("Category", topics =[(1,'Technology'),(2,'Fitness'),(3,'Day in the life')],validators=[DataRequired()])
     content = TextAreaField('Write your blog', validators=[DataRequired()])
     submit = SubmitField('Submit') 
 
