@@ -5,9 +5,11 @@ class Config:
     General configuration parent class
     '''
     QUOTE_BASE_URL ='http://quotes.stormconsultancy.co.uk/random.json'
-    SECRET_KEY= os.environ.get('SECRET_KEY')
-    SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://moringa:0000@localhost/watchlist'
-    UPLOADED_PHOTOS_DEST ='app/static/images'
+    SECRET_KEY= os.environ.get('SECRET_KEY') or 'Quota'
+    SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://moringa:0000@localhost/blog_post'
+    UPLOADED_PHOTOS_DEST ='app/static/photos'
+    SIMPLEMDE_JS_IIFE = True
+    SIMPLEMDE_USE_CDN = True
 
     #email configurations
     MAIL_SERVER = 'smtp.googlemail.com'
@@ -24,7 +26,8 @@ class ProdConfig(Config):
     pass
 
 class DevConfig(Config):
-    SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://moringa:0000@localhost/blog-post'
+    SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://moringa:0000@localhost/blog_post'
+    UPLOADED_PHOTOS_DEST ='app/static/photos'
     DEBUG = True
 
 config_options = {

@@ -22,18 +22,18 @@
             style="font-weight: 500; color: white; font-size: large;">Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link disabled" href="{{url_for('auth.login')}}" tabindex="-2" aria-disabled="true" 
+            <a class="nav-link disabled" href="{{url_for('auth.login')}}" tabindex="-2" 
             style="font-weight: 500; color: white; font-size: large;">Login</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link disabled" href={{url_for('main.profile',full_name=current_user.full_name)}} tabindex="-2" aria-disabled="true" 
+            <a class="nav-link disabled" href="{{url_for('main.profile', full_name=current_user.full_name)}}" tabindex="-2" 
             style="font-weight: 500; color: white; font-size: large;">Profile</a>
           </li>
           {% if current_user.is_authenticated %}
-          <li style="color:white;padding:15px;">{{current_user.username}}</li>
+          <li style="color:white;padding:15px;">{{current_user.full_name}}</li>
           <li><a href="{{url_for('auth.logout')}}">Sign out</a></li>
           {% else %}
-          <li><a href="{{url_for('auth.signin')}}">Sign in</a></li>
+          <li><a href="{{url_for('auth.register')}}" style="font-weight: 500; color: white; font-size: large;">Sign in</a></li>
           {%endif%}
         </ul>
         <form class="d-flex">

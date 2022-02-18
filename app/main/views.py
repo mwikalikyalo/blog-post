@@ -8,15 +8,15 @@ from flask_login import current_user, login_required
 from .. import db,photos
 
 @main.route('/')
-def index():
+def home():
     '''
     View root page function that returns the index page and its data
     '''
     # Getting quotes
     featured_quotes = get_quotes('quote')
-    print(featured_quotes)
+
     title = 'Quote of the hour.'
-    return render_template('index.html', title = title, feature= featured_quotes)
+    return render_template('home.html', title = title, feature= featured_quotes)
 
 
 @main.route('/user/comment/new/<int:id>', methods =["GET", "POST"])
@@ -71,7 +71,7 @@ def update_profile(full_name):
         db.session.add(user)
         db.session.commit()
 
-        return redirect(url_for('.profile',full_name=user.full_name))
+        return redirect(url_for('main.profile',full_name=user.full_name))
 
     return render_template('profile/update.html',form =form)
 

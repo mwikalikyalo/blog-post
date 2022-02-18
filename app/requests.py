@@ -1,3 +1,4 @@
+from cgi import print_directory
 from email.quoprimime import quote
 import urllib.request,json
 from .models import Quotes
@@ -20,27 +21,7 @@ def get_quotes(id):
     with urllib.request.urlopen(get_quotes_url) as url:
         get_quotes_data = url.read()
         get_quotes_response = json.loads(get_quotes_data)
+               
+        return get_quotes_response 
 
-        quotes_results = None
-        if get_quotes_response['quote']:
-            quotes_results_list = get_quotes_response['quote']
-            quotes_results = process_results(quotes_results_list)
-
-    return quotes_results
-
-def process_results(quotes_list):
-    '''
-    Function  that processes the movie result and transform them to a list of Objects
-    '''
-    quotes_results = []
-    for quote_item in quotes_list:
-        author = quote_item.get('author')
-        id = quote_item.get('id')
-        quote = quote_item.get('quote')
-
-        if quote:
-            quote_object = Quotes(author, id, quote)
-            quotes_results.append(quote_object)
-
-    return quotes_results
 
