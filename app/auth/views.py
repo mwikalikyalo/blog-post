@@ -16,7 +16,7 @@ def register():
         db.session.add(user)
         db.session.commit()
          
-        mail_message("Welcome to Bloggin", 'email/welcome_user', user.email, user = user)
+        # mail_message("Welcome to Bloggin", 'email/welcome_user', user.email, user = user)
 
         return redirect(url_for('auth.login'))
 
@@ -41,4 +41,4 @@ def login():
 @login_required
 def logout():
     logout_user()
-    return redirect(url_for("main.index"))
+    return redirect(url_for("main.home"))

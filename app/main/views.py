@@ -17,7 +17,7 @@ def home():
     '''
     # Getting quotes
     featured_quotes = get_quotes('quote')
-    blogs = Blog.query.all()
+    blog = Blog.query.all()
     form = SubscriptionForm()
     if form.validate_on_submit():
         email = form.email.data
@@ -26,16 +26,16 @@ def home():
         return redirect(url_for('main.index'))  
 
     title = 'Quote of the hour.'
-    return render_template('home.html',  title = title, feature= featured_quotes, blogs = blogs, blogger = blogs, form = form)
+    return render_template('home.html',  title = title, feature= featured_quotes, blog = blog, blogger = blog, form = form)
    
 @main.route('/user/<fullname>') 
 def profile(fullname):
     user = User.query.filter_by(fullname = fullname).first()
-    blogs = Blog.get_blog(user.id)
+    blog = Blog.get_blog(user.id)
     if user is None:
         abort(404)
 
-    return render_template('profile/profile.html', user = user, blogs = blogs ) 
+    return render_template('profile/profile.html',user = user, blog = blog ) 
 
 @main.route('/user/<fullname>/update',methods = ['GET','POST'])
 @login_required
@@ -56,7 +56,7 @@ def update_profile(fullname):
 
     return render_template('profile/update.html',form =form) 
     
-@main.route('/user/<username>/update/pic', methods=['POST']) 
+@main.route('/user/<fullname>/update/pic', methods=['POST']) 
 @login_required
 def update_pic(fullname):
     user = User.query.filter_by(fullname = fullname).first() 

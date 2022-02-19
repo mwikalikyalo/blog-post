@@ -7,7 +7,7 @@
     <div class="collapse navbar-collapse " id="navbarNavDropdown">
       <ul class="navbar-nav">
         <li class="nav-item">
-          <a class="nav-link" href="{{url_for('main.home')}}" style="color: white; font-weight: 500;">New blog</a>
+          <a class="nav-link" href="{{url_for('main.new_blog')}}" style="color: white; font-weight: 500;">New blog</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="{{url_for('main.home')}}" style="color: white; font-weight: 500;">Latest</a>
@@ -23,20 +23,20 @@
           </a>
           <ul class="dropdown-menu " aria-labelledby="navbarDropdown">
             <li><a class="dropdown-item" href="{{url_for('main.profile',fullname=current_user.fullname)}}" 
-              style="color: white; font-weight: 500;">Profile</a></li>
-            <li><a class="dropdown-item" href="{{url_for('auth.logout')}}" style="color: white; font-weight: 500;">Sign Out</a></li>
+              style="color: #bb3e03; font-weight: 500;">Profile</a></li>
+            <li><a class="dropdown-item" href="{{url_for('auth.logout')}}" style="color: #bb3e03; font-weight: 500;">Sign Out</a></li>
             <li><hr class="dropdown-divider"></li>
             <li>
               {% if user == current_user %}
               <a class="dropdown-item" href="{{url_for('main.update_profile',fullname=user.fullname)}}" 
-              style="color: white; font-weight: 500;">Edit profile</a>
+              style="color: #bb3e03; font-weight: 500;">Edit profile</a>
               {% endif %}
             </li>
           </ul>
         </li>
         {% else %}
         <li class="nav-item">
-          <a class="nav-link" href="{{url_for('auth.register')}}" style="color: white; font-weight: 500;">Sign in</a>
+          <a class="nav-link" href="{{url_for('auth.login')}}" style="color: #bb3e03; font-weight: 500;">Sign in</a>
         </li>
         {% endif %}
     </ul>
