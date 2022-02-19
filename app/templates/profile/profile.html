@@ -14,7 +14,7 @@
       {% endif %}
 
           {% if user == current_user %}
-      <form  action="{{url_for('main.update_pic',full_name=user.full_name)}}" method="post" enctype = "multipart/form-data">
+      <form  action="{{url_for('main.update_pic',fullname=user.fullname)}}" method="post" enctype = "multipart/form-data">
         <input type="file"  name="photo" class="form-control" required>
         <input type="submit">
       </form>
@@ -22,13 +22,13 @@
     </div>
   <!-- displaying  name-->
     <div class="col-md-4">
-      <h3> {{user.full_name| capitalize}} </h3>
+      <h3> {{user.fullname| capitalize}} </h3>
 
       <!--Displaying user bio-->
       {% if user.bio %}
         <p> {{user.bio}}</p>
       {%else%}
-        <p> {{user.full_name| capitalize}} has no bio </p>
+        <p> {{user.fullname| capitalize}} has no bio </p>
       {% endif %}
     </div>
 
@@ -42,7 +42,7 @@
       {% endif %}
     </div>
     {% if user == current_user %}
-    <a href="{{url_for('main.update_profile',full_name=user.full_name)}}">Edit profile</a>
+    <a href="{{url_for('main.update_profile',fullname=user.fullname)}}">Edit profile</a>
     {% endif %}
   </div>
 </div>
