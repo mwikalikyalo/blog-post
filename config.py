@@ -25,10 +25,8 @@ class TestConfig(Config):
     SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://moringa:0000@localhost/comments_test'
 
 class ProdConfig(Config):
-    SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://moringa:0000@localhost/blog_post'
+    SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://moringa:0000@localhost/blog_post'.replace("://", "ql://", 1)
     
-    
-
 class DevConfig(Config):
     SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://moringa:0000@localhost/blog_post'
     UPLOADED_PHOTOS_DEST ='app/static/photos'

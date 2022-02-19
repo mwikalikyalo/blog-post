@@ -41,7 +41,7 @@ def delete_comment(id):
     db.session.commit()
     return redirect(url_for('blog.html', id = comment_to_delete.blog_id ))
 
-#new blog post 
+# #new blog post 
 @main.route('/user/blog/new', methods =['GET', 'POST'])
 @login_required
 def new_blog():
@@ -54,7 +54,7 @@ def new_blog():
         new_pitch = Blog(title = title, content = content, blogger = current_user)
         new_pitch.save_blog()
         for subscriber in subscribers:
-            mail_message("New post alert", 'email/welcome_user', subscriber.email, user = current_user.username)
+            mail_message("New post alert", 'email/welcome_user', subscriber.email, user = current_user.fullname)
         return redirect(url_for('main.profile', fullname = current_user.fullname ))
 
     return render_template('blog.html', blog_form = form)
@@ -68,7 +68,7 @@ def delete_blog(id):
     return redirect(url_for('main.profile', fullname = current_user.fullname, user = current_user ))   
 
 
-#profile
+# #profile
 @main.route('/user/<fullname>')
 def profile(fullname):
     user = User.query.filter_by(fullname = fullname).first()

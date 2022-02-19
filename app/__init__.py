@@ -6,6 +6,7 @@ from flask_bootstrap import Bootstrap
 from flask_uploads import UploadSet,configure_uploads,IMAGES
 from flask_mail import Mail
 from flask_simplemde import SimpleMDE
+from flask_ckeditor import CKEditor
 
 #........
 mail = Mail()
@@ -16,6 +17,7 @@ db = SQLAlchemy()
 bootstrap = Bootstrap()
 photos = UploadSet('photos',IMAGES)
 simple = SimpleMDE()
+ckeditor = CKEditor()
 
 def create_app(config_name):
     """
@@ -37,7 +39,7 @@ def create_app(config_name):
     bootstrap.init_app(app)
     mail.init_app(app)
     simple.init_app(app)
-
+    
     # Creating the app configurations
     app.config.from_object(config_options[config_name])
 
