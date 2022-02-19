@@ -14,7 +14,7 @@ class User(UserMixin,db.Model):
 # class User(db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key = True)
-    fullname = db.Column(db.String(255),index = True)
+    username = db.Column(db.String(255),index = True)
     email = db.Column(db.String(255), unique = True, index = True)
     role_id = db.Column(db.Integer, db.ForeignKey('role.id'))
     bio = db.Column(db.String(255))
@@ -35,7 +35,7 @@ class User(UserMixin,db.Model):
         return check_password_hash(self.pass_secure, password)     
 
     def __repr__(self):
-        return f'User{self.fullname}'
+        return f'User{self.username}'
 
 class Role(db.Model):
     __tablename__ = 'role'  

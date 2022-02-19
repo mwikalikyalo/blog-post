@@ -7,7 +7,7 @@ from wtforms import StringField,PasswordField,BooleanField,SubmitField
 
 class RegistrationForm(FlaskForm):
     email = StringField('Your Email Address', validators=[DataRequired()])
-    full_name = StringField('Enter your full name', validators=[DataRequired()])
+    username = StringField('Enter your full name', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
     remember = BooleanField('remember me')
     submit = SubmitField('Submit')
@@ -16,8 +16,8 @@ class RegistrationForm(FlaskForm):
         if User.query.filter_by(email = data_field.data).first():
             raise ValidationError('There is an account with that email')
 
-    def validate_full_name(self, data_field):
-        if User.query.filter_by(full_name = data_field.data).first():
+    def validate_username(self, data_field):
+        if User.query.filter_by(username = data_field.data).first():
             raise ValidationError('That name is taken')
 
 class LoginForm(FlaskForm):

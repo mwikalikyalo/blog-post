@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block content%}
+  <div class="container mt-3">
+      <div class="col-md-8">
+          {{ wtf.quick_form(form) }}
+          {{ ckeditor.load() }}
+          {{ ckeditor.config(name='content')}}
+      </div>
+  </div>
+
+{% endblock %}  

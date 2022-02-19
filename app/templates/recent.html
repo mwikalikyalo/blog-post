@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container">
+    {% if blogs %}
+    <div class="col-md-9">
+        {% for blog in blogs[:5] |reverse %}
+    <div class="card mt-1" style="width: 100%;">
+        <div class="card-body" style="background-color: #F8F9FA;">
+            <h6 class="mb-3">{{blog.blogger.username}}</h6>
+          <h5 class="card-title">{{blog.title}}</h5>
+          <p class="card-text">{{blog.content | safe | truncate(50)}}</p>
+          <p><em>{{blog.date_posted.strftime('%Y-%m-%d')}}</em></p>
+          <a class="btn btn-outline-secondary" href="{{url_for('.single_blog', id = blog.id)}}">View blog</a>
+        </div>
+        {% endfor %}
+      </div>
+      {% else %}
+      <h5>No blogs submitted yet</h5>
+      {% endif %}
+    </div>
+</div>
+
+{% endblock %}
