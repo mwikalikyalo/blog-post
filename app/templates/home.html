@@ -27,7 +27,7 @@
                   <h5 class="card-title">{{blog.title}}</h5>
                   <p class="card-text">{{blog.content | safe | truncate(50)}}</p>
                   <p><em>{{blog.date_posted.strftime('%Y-%m-%d')}}</em></p>
-                  <a class="btn btn-outline-secondary" href="{{url_for('.single_blog', id = blog.id)}}">View blog</a>
+                  <a class="btn btn-outline-secondary" href="{{url_for('.new_blog', id = blog.id)}}">View blog</a>
                 </div>
             </div> 
             {% endfor %}

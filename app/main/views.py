@@ -23,10 +23,10 @@ def home():
         email = form.email.data
         new_subscriber = Subscription(email = email)
         new_subscriber.save_email()
-        return redirect(url_for('main.index'))  
+        return redirect(url_for('main.home'))  
 
     title = 'Quote of the hour.'
-    return render_template('home.html',  title = title, feature= featured_quotes, blog = blog, blogger = blog, form = form)
+    return render_template('home.html',  title = title, feature= featured_quotes, blogs = blog, blogger = blog, form = form)
    
 @main.route('/user/<fullname>') 
 def profile(fullname):
