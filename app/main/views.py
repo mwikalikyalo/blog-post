@@ -81,7 +81,7 @@ def new_blog():
         new_pitch.save_blog()
         for subsriber in subscribers:
             mail_message("New post alert", 'email/welcome_user', subsriber.email, user = current_user.fullname)
-        return redirect(url_for('.profile', username = current_user.fullname ))
+        return redirect(url_for('.home', fullname = current_user.fullname ))
 
     return render_template('new_blog.html', blog_form = form)
 
